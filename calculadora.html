@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculadora</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .fundo {
+            background-image: linear-gradient(45deg, black, crimson);
+            height: 100vh;
+            color: rgb(255, 255, 255);
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        }
+        .calculadora {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 8);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            border-radius: 15px;
+            padding: 15px;
+        }
+        .botao {
+            width: 50px;
+            height: 50px;
+            font-size: 25px;
+            margin: 3px;
+            cursor: pointer;
+            background-color: rgb(31,31,31);
+            border: none;
+            color: white;
+        }
+        .botao:hover{
+            background-color: black;
+        }
+        #RESULTADO{
+            background-color: white;
+            text-align-last:right;
+            padding: 5px;
+            width: 207px;
+            height: 30px;
+            color: black;
+            margin: 5px;
+            font-size: 25px
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="fundo">
+        <h1>EVERTON SIMIÃO</h1>
+        <p>Elaborado Por:</p>
+        <div class="calculadora">
+            <h1>calculadora</h1>
+             <p id="RESULTADO"></p>
+             <TAble>
+                <TR>
+                    <TD><BUtton class="botao"onclick="clean()">C</BUtton></TD>
+                    <TD><BUtton class="botao"onclick="back()"><</BUtton></TD>
+                    <TD><BUtton class="botao"onclick="insert('/')">/</BUtton></TD>
+                    <TD><BUtton class="botao"onclick="insert('*')">X</BUtton></TD>
+                </TR>
+                <TR>
+                    <TD><BUtton class="botao"onclick="insert('7')">7</BUtton></TD>
+                    <TD><BUtton class="botao"onclick="insert('8')">8</BUtton></TD>
+                    <TD><BUtton class="botao"onclick="insert('9')">9</BUtton></TD>
+                    <TD><BUtton class="botao"onclick="insert('-')">-</BUtton></TD>
+                </TR>
+                <TR>
+                    <TD><BUtton class="botao"onclick="insert('4')">4</BUtton></TD>
+                    <TD><BUtton class="botao"onclick="insert('5')">5</BUtton></TD>
+                    <TD><BUtton class="botao"onclick="insert('6')">6</BUtton></TD>
+                    <TD><BUtton class="botao"onclick="insert('+')">+</BUtton></TD>
+                </TR>
+                <TR>
+                    <TD><BUtton class="botao"onclick="insert('1')">1</BUtton></TD>
+                    <TD><BUtton class="botao"onclick="insert('2')">2</BUtton></TD>
+                    <TD><BUtton class="botao"onclick="insert('3')">3</BUtton></TD>
+                    <TD rowspan="2"><BUtton class="botao" style="height: 106px;"onclick="calcular()">=</BUtton></TD>
+                </TR>
+                <TR>
+                    <TD colspan="2"><BUtton class="botao" style="width: 106px;"onclick="insert('0')">0</BUtton></TD>
+                    <TD><BUtton class="botao"onclick="insert('.')">.</BUtton></TD>
+                    
+                </TR>
+             </TAble>
+             
+
+        </div>
+    </div>
+    <script>
+        function insert(num)
+        {
+           var numero = document.getElementById('RESULTADO').innerHTML;
+           document.getElementById('RESULTADO').innerHTML = numero + num;
+        }
+        function clean()
+        {
+            document.getElementById('RESULTADO').innerHTML = "";
+        }
+        function back()
+        { 
+            var RESULTADO = document.getElementById('RESULTADO').innerHTML;
+            document.getElementById('RESULTADO').innerHTML = RESULTADO.substring(0, RESULTADO.length -1);
+        }
+        function calcular()
+        {
+            var RESULTADO = document.getElementById('RESULTADO').innerHTML;
+            if(RESULTADO)
+        {
+            document.getElementById('RESULTADO').innerHTML = eval(RESULTADO)
+        }
+        else 
+        {
+            document.getElementById('RESULTADO').innerHTML = "Nada..."
+        }
+        }
+
+    </script>
+</body>
+</html>
