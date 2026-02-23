@@ -1,126 +1,416 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>calculadora</title>
-    <style>
-        *{
-            margin: 0;
-            padding: 0;
-        }
-        .fundo {
-            background-image: linear-gradient(45deg, black, crimson);
-            height: 100vh;
-            color: rgb(255, 255, 255);
-            font-family: Arial, Helvetica, sans-serif;
-            text-align: center;
-        }
-        .calculadora {
-            position: absolute;
-            background-color: rgba(0, 0, 0, 8);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%,-50%);
-            border-radius: 15px;
-            padding: 15px;
-        }
-        .botao {
-            width: 50px;
-            height: 50px;
-            font-size: 25px;
-            margin: 3px;
-            cursor: pointer;
-            background-color: rgb(31,31,31);
-            border: none;
-            color: white;
-        }
-        .botao:hover{
-            background-color: black;
-        }
-        #RESULTADO{
-            background-color: white;
-            text-align-last:right;
-            padding: 5px;
-            width: 207px;
-            height: 30px;
-            color: black;
-            margin: 5px;
-            font-size: 25px
-            
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planner Financeiro e de Propósitos</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --soft: #1f2937;
+      --primary: #22c55e;
+      --danger: #ef4444;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(140deg, #020617, #0f172a 40%, #111827);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: grid;
+      gap: 20px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    h1 { font-size: 2rem; }
+    .subtitle { color: var(--muted); margin-top: 6px; }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .card {
+      background: rgba(17, 24, 39, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .kpi-title { color: var(--muted); font-size: 0.9rem; }
+    .kpi-value { font-size: 1.7rem; margin-top: 6px; font-weight: bold; }
+
+    .income { color: #4ade80; }
+    .expense { color: #f87171; }
+    .balance { color: #60a5fa; }
+
+    h2 {
+      margin-bottom: 12px;
+      font-size: 1.25rem;
+    }
+
+    .forms {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    label { display: block; margin: 10px 0 6px; color: var(--muted); font-size: 0.9rem; }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #374151;
+      background: var(--soft);
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    button {
+      border: none;
+      background: var(--primary);
+      color: #052e16;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+
+    button:hover { filter: brightness(1.08); }
+
+    .list {
+      list-style: none;
+      margin-top: 10px;
+      display: grid;
+      gap: 8px;
+      max-height: 280px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .item {
+      background: #0b1220;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .item-info { display: grid; gap: 4px; }
+    .meta { color: var(--muted); font-size: 0.8rem; }
+
+    .remove {
+      width: auto;
+      background: #b91c1c;
+      color: #fee2e2;
+      padding: 6px 10px;
+      font-size: 0.85rem;
+      margin: 0;
+    }
+
+    .progress {
+      height: 9px;
+      background: #1e293b;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .progress > div {
+      height: 100%;
+      background: linear-gradient(90deg, #22c55e, #84cc16);
+      width: 0;
+    }
+
+    @media (max-width: 700px) {
+      body { padding: 16px; }
+      h1 { font-size: 1.6rem; }
+    }
+  </style>
 </head>
 <body>
-    <div class="fundo">
-        <h1>EVERTON SIMIÃO</h1>
-        <p>Elaborado Por:</p>
-        <div class="calculadora">
-            <h1>calculadora</h1>
-             <p id="RESULTADO"></p>
-             <TAble>
-                <TR>
-                    <TD><BUtton class="botao"onclick="clean()">C</BUtton></TD>
-                    <TD><BUtton class="botao"onclick="back()"><</BUtton></TD>
-                    <TD><BUtton class="botao"onclick="insert('/')">/</BUtton></TD>
-                    <TD><BUtton class="botao"onclick="insert('*')">X</BUtton></TD>
-                </TR>
-                <TR>
-                    <TD><BUtton class="botao"onclick="insert('7')">7</BUtton></TD>
-                    <TD><BUtton class="botao"onclick="insert('8')">8</BUtton></TD>
-                    <TD><BUtton class="botao"onclick="insert('9')">9</BUtton></TD>
-                    <TD><BUtton class="botao"onclick="insert('-')">-</BUtton></TD>
-                </TR>
-                <TR>
-                    <TD><BUtton class="botao"onclick="insert('4')">4</BUtton></TD>
-                    <TD><BUtton class="botao"onclick="insert('5')">5</BUtton></TD>
-                    <TD><BUtton class="botao"onclick="insert('6')">6</BUtton></TD>
-                    <TD><BUtton class="botao"onclick="insert('+')">+</BUtton></TD>
-                </TR>
-                <TR>
-                    <TD><BUtton class="botao"onclick="insert('1')">1</BUtton></TD>
-                    <TD><BUtton class="botao"onclick="insert('2')">2</BUtton></TD>
-                    <TD><BUtton class="botao"onclick="insert('3')">3</BUtton></TD>
-                    <TD rowspan="2"><BUtton class="botao" style="height: 106px;"onclick="calcular()">=</BUtton></TD>
-                </TR>
-                <TR>
-                    <TD colspan="2"><BUtton class="botao" style="width: 106px;"onclick="insert('0')">0</BUtton></TD>
-                    <TD><BUtton class="botao"onclick="insert('.')">.</BUtton></TD>
-                    
-                </TR>
-             </TAble>
-             
+  <main class="container">
+    <header class="header">
+      <div>
+        <h1>Organizador Financeiro & Propósitos</h1>
+        <p class="subtitle">Controle suas finanças, metas e seus objetivos de vida em um único lugar.</p>
+      </div>
+    </header>
 
-        </div>
-    </div>
-    <script>
-        function insert(num)
-        {
-           var numero = document.getElementById('RESULTADO').innerHTML;
-           document.getElementById('RESULTADO').innerHTML = numero + num;
-        }
-        function clean()
-        {
-            document.getElementById('RESULTADO').innerHTML = "";
-        }
-        function back()
-        { 
-            var RESULTADO = document.getElementById('RESULTADO').innerHTML;
-            document.getElementById('RESULTADO').innerHTML = RESULTADO.substring(0, RESULTADO.length -1);
-        }
-        function calcular()
-        {
-            var RESULTADO = document.getElementById('RESULTADO').innerHTML;
-            if(RESULTADO)
-        {
-            document.getElementById('RESULTADO').innerHTML = eval(RESULTADO)
-        }
-        else 
-        {
-            document.getElementById('RESULTADO').innerHTML = "Nada..."
-        }
-        }
+    <section class="grid">
+      <article class="card">
+        <p class="kpi-title">Receitas</p>
+        <p id="incomeTotal" class="kpi-value income">R$ 0,00</p>
+      </article>
+      <article class="card">
+        <p class="kpi-title">Despesas</p>
+        <p id="expenseTotal" class="kpi-value expense">R$ 0,00</p>
+      </article>
+      <article class="card">
+        <p class="kpi-title">Saldo</p>
+        <p id="balanceTotal" class="kpi-value balance">R$ 0,00</p>
+      </article>
+    </section>
 
-    </script>
+    <section class="forms">
+      <article class="card">
+        <h2>Adicionar movimentação</h2>
+        <label for="type">Tipo</label>
+        <select id="type">
+          <option value="receita">Receita</option>
+          <option value="despesa">Despesa</option>
+        </select>
+
+        <label for="description">Descrição</label>
+        <input id="description" type="text" placeholder="Ex.: Salário, Aluguel..." />
+
+        <label for="amount">Valor (R$)</label>
+        <input id="amount" type="number" step="0.01" min="0" placeholder="0,00" />
+
+        <button id="addTransaction">Salvar movimentação</button>
+      </article>
+
+      <article class="card">
+        <h2>Adicionar propósito/meta</h2>
+        <label for="goalName">Nome da meta</label>
+        <input id="goalName" type="text" placeholder="Ex.: Reserva de emergência" />
+
+        <label for="goalTarget">Valor alvo (R$)</label>
+        <input id="goalTarget" type="number" step="0.01" min="1" placeholder="5000" />
+
+        <label for="goalCurrent">Valor já guardado (R$)</label>
+        <input id="goalCurrent" type="number" step="0.01" min="0" placeholder="1500" />
+
+        <button id="addGoal">Salvar meta</button>
+      </article>
+    </section>
+
+    <section class="forms">
+      <article class="card">
+        <h2>Movimentações</h2>
+        <ul id="transactionsList" class="list"></ul>
+      </article>
+
+      <article class="card">
+        <h2>Seus propósitos</h2>
+        <ul id="goalsList" class="list"></ul>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const currency = (value) =>
+      value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+    const state = {
+      transactions: JSON.parse(localStorage.getItem("planner_transactions") || "[]"),
+      goals: JSON.parse(localStorage.getItem("planner_goals") || "[]")
+    };
+
+    const refs = {
+      incomeTotal: document.getElementById("incomeTotal"),
+      expenseTotal: document.getElementById("expenseTotal"),
+      balanceTotal: document.getElementById("balanceTotal"),
+      transactionsList: document.getElementById("transactionsList"),
+      goalsList: document.getElementById("goalsList"),
+      type: document.getElementById("type"),
+      description: document.getElementById("description"),
+      amount: document.getElementById("amount"),
+      goalName: document.getElementById("goalName"),
+      goalTarget: document.getElementById("goalTarget"),
+      goalCurrent: document.getElementById("goalCurrent")
+    };
+
+    function persist() {
+      localStorage.setItem("planner_transactions", JSON.stringify(state.transactions));
+      localStorage.setItem("planner_goals", JSON.stringify(state.goals));
+    }
+
+    function renderTotals() {
+      const income = state.transactions
+        .filter((item) => item.type === "receita")
+        .reduce((sum, item) => sum + item.amount, 0);
+      const expense = state.transactions
+        .filter((item) => item.type === "despesa")
+        .reduce((sum, item) => sum + item.amount, 0);
+
+      refs.incomeTotal.textContent = currency(income);
+      refs.expenseTotal.textContent = currency(expense);
+      refs.balanceTotal.textContent = currency(income - expense);
+    }
+
+    function renderTransactions() {
+      refs.transactionsList.innerHTML = "";
+
+      if (!state.transactions.length) {
+        refs.transactionsList.innerHTML = "<li class='meta'>Nenhuma movimentação registrada.</li>";
+        return;
+      }
+
+      state.transactions.forEach((item) => {
+        const li = document.createElement("li");
+        li.className = "item";
+
+        const info = document.createElement("div");
+        info.className = "item-info";
+
+        const title = document.createElement("strong");
+        title.textContent = item.description;
+
+        const meta = document.createElement("span");
+        meta.className = "meta";
+        meta.textContent = `${item.type.toUpperCase()} • ${currency(item.amount)}`;
+
+        const button = document.createElement("button");
+        button.className = "remove";
+        button.dataset.id = item.id;
+        button.dataset.kind = "transaction";
+        button.textContent = "Excluir";
+
+        info.append(title, meta);
+        li.append(info, button);
+        refs.transactionsList.appendChild(li);
+      });
+    }
+
+    function renderGoals() {
+      refs.goalsList.innerHTML = "";
+
+      if (!state.goals.length) {
+        refs.goalsList.innerHTML = "<li class='meta'>Nenhum propósito cadastrado ainda.</li>";
+        return;
+      }
+
+      state.goals.forEach((goal) => {
+        const percent = Math.min(100, Math.round((goal.current / goal.target) * 100));
+        const li = document.createElement("li");
+        li.className = "item";
+
+        const info = document.createElement("div");
+        info.className = "item-info";
+        info.style.width = "100%";
+
+        const title = document.createElement("strong");
+        title.textContent = goal.name;
+
+        const meta = document.createElement("span");
+        meta.className = "meta";
+        meta.textContent = `${currency(goal.current)} de ${currency(goal.target)} (${percent}%)`;
+
+        const progress = document.createElement("div");
+        progress.className = "progress";
+        const progressBar = document.createElement("div");
+        progressBar.style.width = `${percent}%`;
+        progress.appendChild(progressBar);
+
+        const button = document.createElement("button");
+        button.className = "remove";
+        button.dataset.id = goal.id;
+        button.dataset.kind = "goal";
+        button.textContent = "Excluir";
+
+        info.append(title, meta, progress);
+        li.append(info, button);
+        refs.goalsList.appendChild(li);
+      });
+    }
+
+    function renderAll() {
+      renderTotals();
+      renderTransactions();
+      renderGoals();
+    }
+
+    document.getElementById("addTransaction").addEventListener("click", () => {
+      const description = refs.description.value.trim();
+      const amount = Number(refs.amount.value);
+      const type = refs.type.value;
+
+      if (!description || !amount || amount <= 0) {
+        alert("Preencha descrição e valor válido para a movimentação.");
+        return;
+      }
+
+      state.transactions.unshift({
+        id: crypto.randomUUID(),
+        description,
+        amount,
+        type
+      });
+
+      refs.description.value = "";
+      refs.amount.value = "";
+      persist();
+      renderAll();
+    });
+
+    document.getElementById("addGoal").addEventListener("click", () => {
+      const name = refs.goalName.value.trim();
+      const target = Number(refs.goalTarget.value);
+      const current = Number(refs.goalCurrent.value || 0);
+
+      if (!name || !target || target <= 0 || current < 0) {
+        alert("Preencha os campos da meta corretamente.");
+        return;
+      }
+
+      state.goals.unshift({
+        id: crypto.randomUUID(),
+        name,
+        target,
+        current
+      });
+
+      refs.goalName.value = "";
+      refs.goalTarget.value = "";
+      refs.goalCurrent.value = "";
+      persist();
+      renderAll();
+    });
+
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!target.classList.contains("remove")) return;
+
+      const id = target.dataset.id;
+      const kind = target.dataset.kind;
+
+      if (kind === "transaction") {
+        state.transactions = state.transactions.filter((item) => item.id !== id);
+      }
+
+      if (kind === "goal") {
+        state.goals = state.goals.filter((item) => item.id !== id);
+      }
+
+      persist();
+      renderAll();
+    });
+
+    renderAll();
+  </script>
 </body>
 </html>
