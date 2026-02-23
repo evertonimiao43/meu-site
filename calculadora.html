@@ -273,13 +273,25 @@
       state.transactions.forEach((item) => {
         const li = document.createElement("li");
         li.className = "item";
-        li.innerHTML = `
-          <div class="item-info">
-            <strong>${item.description}</strong>
-            <span class="meta">${item.type.toUpperCase()} • ${currency(item.amount)}</span>
-          </div>
-          <button class="remove" data-id="${item.id}" data-kind="transaction">Excluir</button>
-        `;
+
+        const info = document.createElement("div");
+        info.className = "item-info";
+
+        const title = document.createElement("strong");
+        title.textContent = item.description;
+
+        const meta = document.createElement("span");
+        meta.className = "meta";
+        meta.textContent = `${item.type.toUpperCase()} • ${currency(item.amount)}`;
+
+        const button = document.createElement("button");
+        button.className = "remove";
+        button.dataset.id = item.id;
+        button.dataset.kind = "transaction";
+        button.textContent = "Excluir";
+
+        info.append(title, meta);
+        li.append(info, button);
         refs.transactionsList.appendChild(li);
       });
     }
@@ -296,14 +308,32 @@
         const percent = Math.min(100, Math.round((goal.current / goal.target) * 100));
         const li = document.createElement("li");
         li.className = "item";
-        li.innerHTML = `
-          <div class="item-info" style="width:100%">
-            <strong>${goal.name}</strong>
-            <span class="meta">${currency(goal.current)} de ${currency(goal.target)} (${percent}%)</span>
-            <div class="progress"><div style="width:${percent}%"></div></div>
-          </div>
-          <button class="remove" data-id="${goal.id}" data-kind="goal">Excluir</button>
-        `;
+
+        const info = document.createElement("div");
+        info.className = "item-info";
+        info.style.width = "100%";
+
+        const title = document.createElement("strong");
+        title.textContent = goal.name;
+
+        const meta = document.createElement("span");
+        meta.className = "meta";
+        meta.textContent = `${currency(goal.current)} de ${currency(goal.target)} (${percent}%)`;
+
+        const progress = document.createElement("div");
+        progress.className = "progress";
+        const progressBar = document.createElement("div");
+        progressBar.style.width = `${percent}%`;
+        progress.appendChild(progressBar);
+
+        const button = document.createElement("button");
+        button.className = "remove";
+        button.dataset.id = goal.id;
+        button.dataset.kind = "goal";
+        button.textContent = "Excluir";
+
+        info.append(title, meta, progress);
+        li.append(info, button);
         refs.goalsList.appendChild(li);
       });
     }
